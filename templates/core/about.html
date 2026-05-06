@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hamrohdosh | Hamroh Toping</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Ubuntu:wght@300;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --primary: #00b4db;
+            --secondary: #0083b0;
+            --dark: #1a1a2e;
+            --glass: rgba(255, 255, 255, 0.12);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Ubuntu', sans-serif;
+        }
+
+        body {
+            background: var(--dark);
+            background-image: 
+                linear-gradient(rgba(26, 26, 46, 0.8), rgba(26, 26, 46, 0.9)),
+                url('https://images.unsplash.com/photo-1589982840479-7917b0ba9c65?auto=format&fit=crop&q=80&w=1600'); /* Toshkent tungi manzarasi uchun placeholder */
+            background-size: cover;
+            background-attachment: fixed;
+            background-position: center;
+            color: #ffffff;
+            line-height: 1.6;
+        }
+
+        /* Navigatsiya */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 8%;
+            background: rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px); /* Safari uchun */
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .logo {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--primary);
+            text-transform: uppercase;
+        }
+
+        .nav-links a {
+            color: #fff;
+            text-decoration: none;
+            margin-left: 25px;
+            font-weight: 500;
+            transition: 0.3s;
+            padding: 8px 15px;
+            border-radius: 8px;
+        }
+
+        .nav-links a:hover {
+            background: var(--primary);
+            box-shadow: 0 0 20px rgba(0, 180, 219, 0.5);
+        }
+
+        /* Hero Bo'limi */
+        .hero {
+            text-align: center;
+            padding: 100px 20px;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 3.5rem;
+            margin-bottom: 20px;
+            background: linear-gradient(45deg, #fff, var(--primary));
+            background-clip: text; /* Standart */
+            -webkit-background-clip: text; /* Safari/Chrome uchun */
+            -webkit-text-fill-color: transparent;
+            color: var(--primary); /* Fallback */
+        }
+
+        /* Xususiyatlar */
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            padding: 50px 8%;
+        }
+
+        .card {
+            background: var(--glass);
+            padding: 35px;
+            border-radius: 24px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: transform 0.3s, border 0.3s;
+            backdrop-filter: blur(5px);
+            text-align: center;
+        }
+
+        .card:hover {
+            transform: translateY(-10px);
+            border-color: var(--primary);
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        .card i {
+            font-size: 3rem;
+            color: var(--primary);
+            margin-bottom: 20px;
+            display: block;
+        }
+
+        .btn-main {
+            display: inline-block;
+            margin-top: 30px;
+            padding: 15px 40px;
+            background: var(--primary);
+            color: white;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: bold;
+            transition: 0.4s;
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn-main:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 25px rgba(0, 180, 219, 0.4);
+        }
+
+        /* Footer */
+        footer {
+            padding: 50px;
+            text-align: center;
+            background: rgba(0, 0, 0, 0.5);
+            margin-top: 50px;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            h1 { font-size: 2.2rem; }
+            .navbar { flex-direction: column; gap: 15px; }
+            .nav-links a { margin: 0 10px; font-size: 0.8rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="logo">Sayohat<span style="color:#fff">Dosh</span></div>
+        <div class="nav-links">
+            <a href="{% url 'core:home' %}">Bosh sahifa</a>
+            <a href="{% url 'travel_buddies:list' %}">Hamroh topish</a>
+            <a href="{% url 'locations:list' %}">Lokatsiyalar</a>
+            <a href="{% url 'core:contact' %}">Bog'lanish</a>
+        </div>
+    </nav>
+
+    <section class="hero">
+        <h1>Toshkentni Birgalikda Kashf Etamiz</h1>
+        <p style="font-size: 1.2rem; opacity: 0.9;">Poytaxtimizning qadimiy ko'chalari va zamonaviy bog'lari bo'ylab sayohat qiling. O'zingizga qiziqishi bir xil bo'lgan hamroh toping va sarguzashtni boshlang!</p>
+        <a href="#" class="btn-main">Sayohatni boshlash</a>
+    </section>
+
+    <div class="features">
+        <div class="card">
+            <i class="fas fa-map-marked-alt"></i>
+            <h3>Aqlli Marshrut</h3>
+            <p>Toshkentning eng sara va yashirin go'shalariga tayyor sayohat rejalari.</p>
+        </div>
+        <div class="card">
+            <i class="fas fa-user-friends"></i>
+            <h3>Hamroh Topish</h3>
+            <p>Yolg'iz sayohat qilishdan zerikdingizmi? O'zingizga mos jamoa yoki sherik toping.</p>
+        </div>
+        <div class="card">
+            <i class="fas fa-comments"></i>
+            <h3>Jonli Muloqot</h3>
+            <p>Boshqa sayohatchilar bilan tajriba almashing va maslahatlar oling.</p>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2026 Tashkent Travel Project. Barcha huquqlar himoyalangan.</p>
+        <div style="margin-top: 15px;">
+            <i class="fab fa-instagram" style="margin: 0 10px; font-size: 1.5rem; cursor: pointer;"></i>
+            <i class="fab fa-telegram" style="margin: 0 10px; font-size: 1.5rem; cursor: pointer;"></i>
+        </div>
+    </footer>
+
+</body>
+</html>

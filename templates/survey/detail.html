@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>So'rovnoma tafsilotlari</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; background: #f4f4f4; }
+        .navbar { background: #333; padding: 15px; color: white; margin-bottom: 20px; }
+        .navbar a { color: white; text-decoration: none; margin: 0 15px; }
+        .container { max-width: 600px; margin: 0 auto; background: white; padding: 30px; border-radius: 10px; }
+        h1 { text-align: center; margin-bottom: 30px; }
+        .info { margin-bottom: 15px; padding: 10px; border-bottom: 1px solid #eee; }
+        .label { font-weight: bold; color: #555; }
+        .value { margin-top: 5px; }
+        .btn { display: inline-block; background: #007bff; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px; margin-top: 20px; }
+    </style>
+</head>
+<body>
+    <div class="navbar">
+        <a href="{% url 'core:home' %}">Bosh sahifa</a>
+        <a href="{% url 'core:home' %}">Bosh sahifa</a>
+        <a href="{% url 'survey:create' %}">Yangi so'rovnoma</a>
+        {% if user.is_authenticated %}
+            <span>Xush kelibsiz, {{ user.username }}!</span>
+            <a href="{% url 'users:logout' %}">Chiqish</a>
+        {% else %}
+            <a href="{% url 'users:login' %}">Kirish</a>
+        {% endif %}
+    </div>
+    
+    <div class="container">
+        <h1>📋 So'rovnoma tafsilotlari</h1>
+        
+        <div class="info">
+            <div class="label">👤 Foydalanuvchi:</div>
+            <div class="value">{{ survey.user.username }}</div>
+        </div>
+        
+        <div class="info">
+            <div class="label">🎯 Qiziqishlar:</div>
+            <div class="value">
+                {% for interest in survey.interests.all %}
+                    {{ interest.display_name }}{% if not forloop.last %}, {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+        
+        <div class="info">
+            <div class="label">👥 Kim bilan:</div>
+            <div class="value">{{ survey.companion.name }}</div>
+        </div>
+        
+        <div class="info">
+            <div class="label">🏥 Sog'liq holati:</div>
+            <div class="value">
+                {% for health in survey.health.all %}
+                    {{ health.name }}{% if not forloop.last %}, {% endif %}
+                {% empty %}
+                    Hech qanday muammo yo'q
+                {% endfor %}
+            </div>
+        </div>
+        
+        <div class="info">
+            <div class="label">📅 Sayohat sanasi:</div>
+            <div class="value">{{ survey.date }}</div>
+        </div>
+        
+        <div class="info">
+            <div class="label">🕐 Yaratilgan vaqt:</div>
+            <div class="value">{{ survey.created_at }}</div>
+        </div>
+        
+        <a href="{% url 'trips:trip_result' survey.id %}" class="btn" style="background: #28a745; margin-right: 10px;">🗺️ Sayohat Rejasi</a>
+        <a href="{% url 'core:home' %}" class="btn">⬅ Bosh sahifaga</a>
+    </div>
+</body>
+</html>

@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tizimga kirish | Premium Travel</title>
+    <!-- Zamonaviy Google shrifti -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Montserrat', sans-serif;
+            color: #333;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            background-color: #f9f9f9;
+        }
+
+        /* Navigatsiya qismi */
+        .navbar {
+            padding: 25px 50px;
+            position: absolute;
+            width: 100%;
+            top: 0;
+            z-index: 10;
+        }
+
+        .navbar a {
+            color: #111;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 13px;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            transition: opacity 0.3s ease;
+        }
+
+        .navbar a:hover {
+            opacity: 0.6;
+        }
+
+        /* Asosiy oyna */
+        .wrapper {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            /* Sayohatga oid estetik orqa fon */
+            background: url('https://images.unsplash.com/photo-1436491865332-7a61a109cc05?auto=format&fit=crop&q=80') no-repeat center center/cover;
+            position: relative;
+        }
+
+        /* Minimalizm uchun xira (blur) effekt */
+        .wrapper::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(8px);
+        }
+
+        /* Form konteyneri */
+        .container {
+            position: relative;
+            z-index: 1;
+            width: 100%;
+            max-width: 400px;
+            background: #ffffff;
+            padding: 50px 40px;
+            border-radius: 16px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.06);
+        }
+
+        .container h2 {
+            text-align: center;
+            margin-bottom: 35px;
+            font-weight: 600;
+            font-size: 26px;
+            color: #1a1a1a;
+            letter-spacing: -0.5px;
+        }
+
+        /* Xabarlar dizayni */
+        .message-box {
+            padding: 12px 15px;
+            border-radius: 6px;
+            margin-bottom: 25px;
+            font-size: 13px;
+            text-align: center;
+            font-weight: 500;
+        }
+        .error { background: #fef2f2; color: #991b1b; border: 1px solid #fecaca; }
+        .success { background: #f0fdf4; color: #166534; border: 1px solid #bbf7d0; }
+
+        /* Input maydonlari */
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px 0;
+            border: none;
+            border-bottom: 1px solid #e5e5e5;
+            background: transparent;
+            font-size: 15px;
+            font-family: inherit;
+            color: #111;
+            transition: border-color 0.3s ease;
+        }
+
+        input::placeholder {
+            color: #a0a0a0;
+            font-weight: 300;
+        }
+
+        input:focus {
+            outline: none;
+            border-bottom-color: #111; /* Fokus bo'lganda qora chiziq */
+        }
+
+        /* Tugma dizayni */
+        button {
+            width: 100%;
+            padding: 15px;
+            background: #111;
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            cursor: pointer;
+            transition: transform 0.2s ease, background 0.3s ease;
+            margin-top: 10px;
+        }
+
+        button:hover {
+            background: #333;
+            transform: translateY(-2px);
+        }
+
+        /* Havolalar */
+        .register-link {
+            text-align: center;
+            margin-top: 30px;
+            font-size: 13px;
+            color: #666;
+        }
+
+        .register-link a {
+            color: #111;
+            text-decoration: none;
+            font-weight: 600;
+            transition: opacity 0.3s;
+        }
+
+        .register-link a:hover {
+            opacity: 0.7;
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="navbar">
+        <a href="/">Bosh sahifa</a>
+    </div>
+
+    <div class="wrapper">
+        <div class="container">
+            <h2>Kirish</h2>
+            
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="message-box {% if message.tags == 'error' %}error{% else %}success{% endif %}">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+            
+            <form method="post">
+                {% csrf_token %}
+                <div class="form-group">
+                    <input type="text" name="username" placeholder="Foydalanuvchi nomi" required>
+                </div>
+                <div class="form-group">
+                    <input type="password" name="password" placeholder="Parol" required>
+                </div>
+                <button type="submit">Tizimga kirish</button>
+            </form>
+            
+            <div class="register-link">
+                Hisobingiz yo'qmi? <a href="{% url 'users:register' %}">Ro'yxatdan o'tish</a>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>

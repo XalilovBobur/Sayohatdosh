@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ro'yxatdan o'tish | Premium Travel</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Montserrat', sans-serif;
+            color: #333;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            background-color: #f9f9f9;
+        }
+
+        /* Navigatsiya */
+        .navbar {
+            padding: 25px 50px;
+            position: absolute;
+            width: 100%;
+            top: 0;
+            z-index: 10;
+        }
+
+        .navbar a {
+            color: #111;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 13px;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            transition: opacity 0.3s ease;
+        }
+
+        .navbar a:hover {
+            opacity: 0.6;
+        }
+
+        /* Asosiy oyna va orqa fon */
+        .wrapper {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            /* Boshqa sayohat foni (tabiat/yo'l) */
+            background: url('https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?auto=format&fit=crop&q=80') no-repeat center center/coverOldingi kirish (login) sahifasi bilan bir xil uslubda – zamonaviy, premium va minimalistik (Glassmorphism) ko'rinishdagi **Ro'yxatdan o'tish** sahifasining kodini tayyorladim. 
+
+Bu dizayn sahifani zerikarli oq fondan qutqarib, o'qishga oson va ko'zga chiroyli tashlanadigan holatga keltiradi. Django teglari xatosiz saqlab qolindi.
+
+### Zamonaviy Ro'yxatdan O'tish Kodi:
+```html
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ro'yxatdan o'tish | Premium Travel</title>
+    <!-- Zamonaviy Google shrifti -->
+    <link href="[https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600&display=swap](https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600&display=swap)" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Montserrat', sans-serif;
+            color: #333;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            background-color: #f9f9f9;
+        }
+
+        /* Navigatsiya */
+        .navbar {
+            padding: 25px 50px;
+            position: absolute;
+            width: 100%;
+            top: 0;
+            z-index: 10;
+        }
+
+        .navbar a {
+            color: #111;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 13px;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            transition: opacity 0.3s ease;
+        }
+
+        .navbar a:hover {
+            opacity: 0.6;
+        }
+
+        /* Orqa fon va markazlashtirish */
+        .wrapper {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            /* Sayohat tematikasi uchun rasm */
+            background: url('[https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?auto=format&fit=crop&q=80](https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?auto=format&fit=crop&q=80)') no-repeat center center/cover;
+            position: relative;
+            padding: 80px 20px 20px 20px;
+        }
+
+        /* Xira (blur) shisha effekti */
+        .wrapper::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(10px);
+        }
+
+        /* Asosiy forma qutisi */
+        .container {
+            position: relative;
+            z-index: 1;
+            width: 100%;
+            max-width: 420px;
+            background: #ffffff;
+            padding: 40px;
+            border-radius: 16px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.08);
+        }
+
+        .container h2 {
+            text-align: center;
+            margin-bottom: 30px;
+            font-weight: 600;
+            font-size: 24px;
+            color: #1a1a1a;
+            letter-spacing: -0.5px;
+        }
+
+        /* Xato xabarlari */
+        .message-box {
+            padding: 12px 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            font-size: 13px;
+            text-align: center;
+            font-weight: 500;
+            background: #fef2f2; 
+            color: #991b1b; 
+            border: 1px solid #fecaca;
+        }
+
+        /* Inputlar dizayni */
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        input {
+            width: 100%;
+            padding: 14px 15px;
+            border: 1.5px solid #eaeaea;
+            border-radius: 8px;
+            background: #fafafa;
+            font-size: 14px;
+            font-family: inherit;
+            color: #111;
+            transition: all 0.3s ease;
+        }
+
+        input::placeholder {
+            color: #a0a0a0;
+            font-weight: 400;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #111;
+            background: #fff;
+            box-shadow: 0 0 0 3px rgba(17, 17, 17, 0.05);
+        }
+
+        /* Tugma */
+        button {
+            width: 100%;
+            padding: 16px;
+            background: #111;
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            cursor: pointer;
+            transition: transform 0.2s ease, background 0.3s ease;
+            margin-top: 10px;
+        }
+
+        button:hover {
+            background: #333;
+            transform: translateY(-2px);
+        }
+
+        /* Pastki havolalar */
+        .login-link {
+            text-align: center;
+            margin-top: 25px;
+            font-size: 14px;
+            color: #666;
+        }
+
+        .login-link a {
+            color: #111;
+            text-decoration: none;
+            font-weight: 600;
+            transition: opacity 0.3s;
+        }
+
+        .login-link a:hover {
+            opacity: 0.7;
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="navbar">
+        <a href="/">Bosh sahifa</a>
+    </div>
+
+    <div class="wrapper">
+        <div class="container">
+            <h2>Ro'yxatdan o'tish</h2>
+            
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="message-box">{{ message }}</div>
+                {% endfor %}
+            {% endif %}
+            
+            <form method="post">
+                {% csrf_token %}
+                <div class="form-group">
+                    <input type="text" name="username" placeholder="Foydalanuvchi nomi" required>
+                </div>
+                <div class="form-group">
+                    <input type="email" name="email" placeholder="Elektron pochta (Email)" required>
+                </div>
+                <div class="form-group">
+                    <input type="password" name="password" placeholder="Parol" required>
+                </div>
+                <div class="form-group">
+                    <input type="password" name="password2" placeholder="Parolni tasdiqlang" required>
+                </div>
+                <button type="submit">Ro'yxatdan o'tish</button>
+            </form>
+            
+            <div class="login-link">
+                Allaqachon hisobingiz bormi? <a href="{% url 'users:login' %}">Kirish</a>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>

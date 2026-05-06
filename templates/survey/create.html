@@ -1,0 +1,847 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>So'rovnoma — {{ survey.title|default:"Sayohat So'rovnomasi" }}</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,500;0,9..144,600;1,9..144,300&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+    <style>
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --bg:          #F5F0E8;
+            --surface:     #FDFBF7;
+            --surface-2:   #F0EBE0;
+            --surface-3:   #E8E2D6;
+
+            --border:      #D8D0C0;
+            --border-2:    #C8BEA8;
+
+            --ink:         #1C1A16;
+            --ink-2:       #3D3828;
+            --ink-3:       #6B6454;
+            --ink-4:       #9B9385;
+
+            --terra:       #C4622D;
+            --terra-lt:    #F5E6DC;
+            --terra-2:     #A84E22;
+
+            --sage:        #4A7260;
+            --sage-lt:     #E2EDE8;
+            --sage-2:      #385A4C;
+
+            --gold:        #B5892A;
+            --gold-lt:     #F5EDD8;
+
+            --red:         #B53A2A;
+            --red-lt:      #FCECEA;
+            --red-border:  #E8B4AE;
+        }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+            background: var(--bg);
+            color: var(--ink);
+            min-height: 100vh;
+            padding: 32px 20px 72px;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* decorative top line */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--terra), var(--gold), var(--sage));
+            z-index: 100;
+        }
+
+        a { color: inherit; text-decoration: none; }
+
+        /* ─── NAVBAR ─── */
+        .navbar {
+            max-width: 700px;
+            margin: 0 auto 24px;
+            background: var(--surface);
+            border: 1.5px solid var(--border);
+            border-radius: 18px;
+            padding: 14px 22px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+        }
+
+        .navbar__brand {
+            display: flex;
+            align-items: center;
+            gap: 9px;
+            font-family: 'Fraunces', serif;
+            font-size: 17px;
+            font-weight: 500;
+            color: var(--ink);
+            letter-spacing: -0.3px;
+        }
+
+        .brand-mark {
+            width: 32px; height: 32px;
+            border-radius: 10px;
+            background: var(--terra);
+            display: grid; place-items: center;
+            flex-shrink: 0;
+        }
+
+        .navbar__links {
+            display: flex;
+            gap: 6px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .navbar__link {
+            font-size: 13px;
+            font-weight: 400;
+            color: var(--ink-3);
+            padding: 6px 12px;
+            border-radius: 8px;
+            transition: all .2s;
+            border: 1.5px solid transparent;
+        }
+
+        .navbar__link:hover {
+            color: var(--ink);
+            background: var(--surface-2);
+            border-color: var(--border);
+        }
+
+        .navbar__user {
+            font-size: 13px;
+            font-weight: 500;
+            color: var(--ink-2);
+            background: var(--surface-2);
+            border: 1.5px solid var(--border);
+            padding: 6px 14px;
+            border-radius: 100px;
+            display: flex;
+            align-items: center;
+            gap: 7px;
+        }
+
+        /* ─── OUTER WRAPPER ─── */
+        .wrapper {
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        /* ─── STEP TRACK (top horizontal pill) ─── */
+        .step-track {
+            display: flex;
+            align-items: center;
+            gap: 0;
+            margin-bottom: 20px;
+            background: var(--surface);
+            border: 1.5px solid var(--border);
+            border-radius: 100px;
+            padding: 6px;
+        }
+
+        .step-pill {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 7px;
+            padding: 9px 14px;
+            border-radius: 100px;
+            transition: all .3s ease;
+            border: 1.5px solid transparent;
+        }
+
+        .step-pill.done {
+            background: var(--sage-lt);
+            border-color: #B8D4CA;
+        }
+
+        .step-pill.active {
+            background: var(--terra);
+            border-color: var(--terra);
+            box-shadow: 0 4px 16px rgba(196,98,45,0.28);
+        }
+
+        .step-pill.pending { background: transparent; }
+
+        .step-num {
+            width: 22px; height: 22px;
+            border-radius: 50%;
+            display: grid; place-items: center;
+            font-size: 11px; font-weight: 600;
+            flex-shrink: 0;
+            border: 1.5px solid transparent;
+        }
+
+        .done   .step-num { background: var(--sage); border-color: var(--sage); color: #fff; }
+        .active .step-num { background: rgba(255,255,255,0.25); border-color: rgba(255,255,255,0.4); color: #fff; }
+        .pending .step-num { background: var(--surface-2); border-color: var(--border-2); color: var(--ink-4); }
+
+        .step-lbl {
+            font-size: 12px; font-weight: 500;
+            white-space: nowrap;
+        }
+
+        .done   .step-lbl { color: var(--sage-2); }
+        .active .step-lbl { color: #fff; }
+        .pending .step-lbl { color: var(--ink-4); }
+
+        /* ─── MAIN CARD ─── */
+        .card {
+            background: var(--surface);
+            border: 1.5px solid var(--border);
+            border-radius: 24px;
+            overflow: hidden;
+        }
+
+        /* card header band */
+        .card-header {
+            padding: 28px 40px 24px;
+            border-bottom: 1.5px solid var(--border);
+            background: var(--surface-2);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+        }
+
+        .card-header__left {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .step-icon-wrap {
+            width: 48px; height: 48px;
+            border-radius: 16px;
+            background: var(--terra-lt);
+            border: 1.5px solid #DFB8A2;
+            display: grid; place-items: center;
+            flex-shrink: 0;
+        }
+
+        .card-header__meta {
+            display: flex;
+            flex-direction: column;
+            gap: 3px;
+        }
+
+        .card-header__eyebrow {
+            font-size: 10.5px;
+            font-weight: 600;
+            letter-spacing: .09em;
+            text-transform: uppercase;
+            color: var(--terra);
+        }
+
+        .card-header__title {
+            font-family: 'Fraunces', serif;
+            font-size: 20px;
+            font-weight: 500;
+            color: var(--ink);
+            letter-spacing: -0.4px;
+        }
+
+        .prog-ring-wrap { position: relative; width: 52px; height: 52px; }
+
+        .prog-ring-wrap svg { transform: rotate(-90deg); }
+
+        .prog-ring-wrap .ring-bg { fill: none; stroke: var(--surface-3); stroke-width: 3; }
+        .prog-ring-wrap .ring-fg {
+            fill: none; stroke: var(--terra); stroke-width: 3;
+            stroke-linecap: round;
+            transition: stroke-dashoffset .5s cubic-bezier(.4,0,.2,1);
+        }
+
+        .ring-label {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 11px;
+            font-weight: 600;
+            color: var(--ink-2);
+        }
+
+        /* ─── PROGRESS BAR ─── */
+        .prog-bar {
+            height: 2.5px;
+            background: var(--surface-3);
+            margin: 0;
+        }
+
+        .prog-bar__fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--terra), var(--gold));
+            transition: width .5s cubic-bezier(.4,0,.2,1);
+        }
+
+        /* ─── CARD BODY ─── */
+        .card-body {
+            padding: 36px 40px 40px;
+        }
+
+        /* ─── ALERTS ─── */
+        .alert {
+            display: flex;
+            align-items: flex-start;
+            gap: 11px;
+            padding: 13px 16px;
+            border-radius: 12px;
+            border: 1.5px solid;
+            font-size: 13.5px;
+            line-height: 1.5;
+            margin-bottom: 22px;
+        }
+
+        .alert--error {
+            background: var(--red-lt);
+            color: var(--red);
+            border-color: var(--red-border);
+        }
+
+        .alert--success {
+            background: var(--sage-lt);
+            color: var(--sage-2);
+            border-color: #B8D4CA;
+        }
+
+        .alert__icon { flex-shrink: 0; margin-top: 1px; }
+
+        /* ─── QUESTION AREA ─── */
+        .field__section {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 10.5px;
+            font-weight: 600;
+            color: var(--terra);
+            letter-spacing: .09em;
+            text-transform: uppercase;
+            margin-bottom: 12px;
+        }
+
+        .field__section-dot {
+            width: 5px; height: 5px;
+            border-radius: 50%;
+            background: var(--terra);
+        }
+
+        .field__question {
+            font-family: 'Fraunces', serif;
+            font-size: 24px;
+            font-weight: 500;
+            color: var(--ink);
+            margin-bottom: 26px;
+            line-height: 1.35;
+            letter-spacing: -0.5px;
+        }
+
+        .field__hint {
+            display: flex;
+            align-items: center;
+            gap: 7px;
+            font-size: 12.5px;
+            color: var(--ink-4);
+            margin-top: 14px;
+            line-height: 1.5;
+        }
+
+        /* ─── OPTIONS ─── */
+        .opt-list {
+            display: flex;
+            flex-direction: column;
+            gap: 9px;
+        }
+
+        .opt {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding: 14px 18px;
+            border: 1.5px solid var(--border);
+            border-radius: 14px;
+            cursor: pointer;
+            transition: border-color .2s, background .2s, transform .15s;
+            background: var(--surface);
+            user-select: none;
+        }
+
+        .opt:hover {
+            border-color: var(--terra);
+            background: var(--terra-lt);
+            transform: translateX(3px);
+        }
+
+        .opt__check {
+            width: 20px; height: 20px;
+            border-radius: 6px;
+            border: 1.5px solid var(--border-2);
+            background: var(--surface-2);
+            display: grid; place-items: center;
+            flex-shrink: 0;
+            transition: all .2s;
+        }
+
+        .opt__radio {
+            width: 20px; height: 20px;
+            border-radius: 50%;
+            border: 1.5px solid var(--border-2);
+            background: var(--surface-2);
+            display: grid; place-items: center;
+            flex-shrink: 0;
+            transition: all .2s;
+        }
+
+        .opt input[type="checkbox"],
+        .opt input[type="radio"] {
+            width: 16px; height: 16px;
+            flex-shrink: 0;
+            accent-color: var(--terra);
+            cursor: pointer;
+            border-radius: 4px;
+        }
+
+        .opt label {
+            font-size: 14px;
+            font-weight: 400;
+            color: var(--ink-2);
+            cursor: pointer;
+            flex: 1;
+            line-height: 1.45;
+        }
+
+        /* ─── DATE ─── */
+        .date-wrap {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .date-icon {
+            position: absolute;
+            left: 16px;
+            pointer-events: none;
+            color: var(--ink-3);
+        }
+
+        input[type="date"] {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            width: 100%;
+            padding: 15px 18px 15px 46px;
+            border: 1.5px solid var(--border);
+            border-radius: 14px;
+            font-size: 15px;
+            color: var(--ink);
+            background: var(--surface);
+            outline: none;
+            transition: border-color .2s, box-shadow .2s;
+            cursor: pointer;
+        }
+
+        input[type="date"]:focus {
+            border-color: var(--terra);
+            box-shadow: 0 0 0 4px var(--terra-lt);
+        }
+
+        /* ─── BUTTONS ─── */
+        .btn-group {
+            display: flex;
+            gap: 10px;
+            margin-top: 38px;
+            padding-top: 28px;
+            border-top: 1.5px solid var(--border);
+        }
+
+        .btn {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 13px 24px;
+            border-radius: 12px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all .2s ease;
+            line-height: 1;
+            letter-spacing: .01em;
+        }
+
+        .btn:active { transform: scale(.97); }
+
+        .btn--prev {
+            background: var(--surface);
+            color: var(--ink-2);
+            border: 1.5px solid var(--border);
+            flex: 0 0 auto;
+        }
+
+        .btn--prev:hover {
+            background: var(--surface-2);
+            border-color: var(--border-2);
+            color: var(--ink);
+        }
+
+        .btn--next {
+            background: var(--terra);
+            color: #fff;
+            border: 1.5px solid var(--terra);
+            flex: 1;
+            box-shadow: 0 6px 20px rgba(196,98,45,0.25);
+        }
+
+        .btn--next:hover {
+            background: var(--terra-2);
+            border-color: var(--terra-2);
+            box-shadow: 0 8px 28px rgba(196,98,45,0.35);
+            transform: translateY(-1px);
+        }
+
+        .btn--submit {
+            background: var(--sage);
+            color: #fff;
+            border: 1.5px solid var(--sage);
+            flex: 1;
+            box-shadow: 0 6px 20px rgba(74,114,96,0.25);
+        }
+
+        .btn--submit:hover {
+            background: var(--sage-2);
+            border-color: var(--sage-2);
+            box-shadow: 0 8px 28px rgba(74,114,96,0.35);
+            transform: translateY(-1px);
+        }
+
+        /* ─── RESPONSIVE ─── */
+        @media (max-width: 640px) {
+            body { padding: 16px 14px 52px; }
+
+            .card-header { padding: 20px 22px 18px; }
+            .card-body   { padding: 26px 22px 28px; }
+
+            .navbar { padding: 12px 16px; border-radius: 14px; margin-bottom: 14px; }
+
+            .field__question { font-size: 20px; }
+
+            .step-lbl { display: none; }
+            .step-pill { padding: 9px; justify-content: center; }
+
+            .btn { padding: 13px 16px; font-size: 13px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navbar -->
+    <nav class="navbar">
+        <a href="/" class="navbar__brand">
+            <span class="brand-mark">
+                <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                    <polygon points="3 11 22 2 13 21 11 13 3 11"/>
+                </svg>
+            </span>
+            Sayohatdosh
+        </a>
+        <div class="navbar__links">
+            <a href="{% url 'core:home' %}" class="navbar__link">
+                Bosh sahifa
+            </a>
+            {% if user.is_authenticated %}
+                <span class="navbar__user">
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>
+                    </svg>
+                    <strong>{{ user.username }}</strong>
+                    <a href="{% url 'users:logout' %}" class="navbar__link" style="padding:0;border:0;background:none;">Chiqish</a>
+                </span>
+            {% else %}
+                <a href="{% url 'users:login' %}" class="navbar__link">Kirish</a>
+            {% endif %}
+        </div>
+    </nav>
+
+    <div class="wrapper">
+
+        <!-- Step track pill bar -->
+        <div class="step-track">
+            {% for s in steps %}
+            <div class="step-pill {% if s.num == step %}active{% elif s.num < step %}done{% else %}pending{% endif %}">
+                <div class="step-num">
+                    {% if s.num < step %}
+                        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="20 6 9 17 4 12"/>
+                        </svg>
+                    {% else %}
+                        {{ s.num }}
+                    {% endif %}
+                </div>
+                <span class="step-lbl">{{ s.title }}</span>
+            </div>
+            {% endfor %}
+        </div>
+
+        <!-- Main card -->
+        <div class="card">
+
+            <!-- Card header -->
+            <div class="card-header">
+                <div class="card-header__left">
+                    <div class="step-icon-wrap">
+                        {% if step == 1 %}
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#C4622D" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+                        </svg>
+                        {% elif step == 2 %}
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#C4622D" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/>
+                            <path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+                        </svg>
+                        {% elif step == 3 %}
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#C4622D" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M22 12h-4l-3 9L9 3l-3 9H2"/>
+                        </svg>
+                        {% elif step == 4 %}
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#C4622D" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/>
+                            <line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/>
+                        </svg>
+                        {% endif %}
+                    </div>
+                    <div class="card-header__meta">
+                        <span class="card-header__eyebrow">Bosqich {{ step }}</span>
+                        <span class="card-header__title">Sayohat So'rovnomasi</span>
+                    </div>
+                </div>
+
+                <!-- Ring progress -->
+                <div class="prog-ring-wrap">
+                    <svg width="52" height="52" viewBox="0 0 52 52">
+                        <circle class="ring-bg" cx="26" cy="26" r="20"/>
+                        <circle class="ring-fg" cx="26" cy="26" r="20" id="ringFg"
+                            stroke-dasharray="125.6"
+                            stroke-dashoffset="125.6"/>
+                    </svg>
+                    <div class="ring-label" id="ringLabel">0%</div>
+                </div>
+            </div>
+
+            <!-- Thin progress bar -->
+            <div class="prog-bar">
+                <div class="prog-bar__fill" id="progressFill"></div>
+            </div>
+
+            <!-- Body -->
+            <div class="card-body">
+
+                <!-- Flash messages -->
+                {% if messages %}
+                    {% for message in messages %}
+                    <div class="alert {% if 'success' in message.tags %}alert--success{% else %}alert--error{% endif %}" role="alert">
+                        <span class="alert__icon">
+                            {% if 'success' in message.tags %}
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                                <circle cx="12" cy="12" r="10"/><polyline points="9 12 11 14 15 10"/>
+                            </svg>
+                            {% else %}
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                                <circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/>
+                            </svg>
+                            {% endif %}
+                        </span>
+                        {{ message }}
+                    </div>
+                    {% endfor %}
+                {% endif %}
+
+                <!-- Form -->
+                <form method="post" novalidate>
+                    {% csrf_token %}
+
+                    {% if step == 1 %}
+                        <div class="field__section">
+                            <span class="field__section-dot"></span>
+                            Bosqich 1
+                        </div>
+                        <div class="field__question">{{ form.interests.label }}</div>
+                        <div class="opt-list" role="group" aria-label="{{ form.interests.label }}">
+                            {% for widget in form.interests %}
+                            <div class="opt">
+                                {{ widget.tag }}
+                                <label for="{{ widget.id_for_label }}">{{ widget.choice_label }}</label>
+                            </div>
+                            {% endfor %}
+                        </div>
+                        {% if form.interests.errors %}
+                            <div class="alert alert--error" role="alert">
+                                <span class="alert__icon">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                                        <circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/>
+                                    </svg>
+                                </span>
+                                {{ form.interests.errors.0 }}
+                            </div>
+                        {% endif %}
+                        <p class="field__hint">
+                            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/>
+                            </svg>
+                            Bir nechta variant tanlashingiz mumkin
+                        </p>
+
+                    {% elif step == 2 %}
+                        <div class="field__section">
+                            <span class="field__section-dot"></span>
+                            Bosqich 2
+                        </div>
+                        <div class="field__question">{{ form.companion.label }}</div>
+                        <div class="opt-list" role="radiogroup" aria-label="{{ form.companion.label }}">
+                            {% for widget in form.companion %}
+                            <div class="opt">
+                                {{ widget.tag }}
+                                <label for="{{ widget.id_for_label }}">{{ widget.choice_label }}</label>
+                            </div>
+                            {% endfor %}
+                        </div>
+                        {% if form.companion.errors %}
+                            <div class="alert alert--error" role="alert">
+                                <span class="alert__icon">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                                        <circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/>
+                                    </svg>
+                                </span>
+                                {{ form.companion.errors.0 }}
+                            </div>
+                        {% endif %}
+
+                    {% elif step == 3 %}
+                        <div class="field__section">
+                            <span class="field__section-dot"></span>
+                            Bosqich 3
+                        </div>
+                        <div class="field__question">{{ form.health.label }}</div>
+                        <div class="opt-list" role="group" aria-label="{{ form.health.label }}">
+                            {% for widget in form.health %}
+                            <div class="opt">
+                                {{ widget.tag }}
+                                <label for="{{ widget.id_for_label }}">{{ widget.choice_label }}</label>
+                            </div>
+                            {% endfor %}
+                        </div>
+                        {% if form.health.errors %}
+                            <div class="alert alert--error" role="alert">
+                                <span class="alert__icon">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                                        <circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/>
+                                    </svg>
+                                </span>
+                                {{ form.health.errors.0 }}
+                            </div>
+                        {% endif %}
+                        <p class="field__hint">
+                            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/>
+                            </svg>
+                            Agar muammo bo'lmasa, bo'sh qoldiring
+                        </p>
+
+                    {% elif step == 4 %}
+                        <div class="field__section">
+                            <span class="field__section-dot"></span>
+                            Bosqich 4
+                        </div>
+                        <div class="field__question">{{ form.date.label }}</div>
+                        <div class="date-wrap">
+                            <span class="date-icon">
+                                <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                                    <rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/>
+                                    <line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/>
+                                </svg>
+                            </span>
+                            {{ form.date }}
+                        </div>
+                        {% if form.date.errors %}
+                            <div class="alert alert--error" style="margin-top:12px;" role="alert">
+                                <span class="alert__icon">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                                        <circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/>
+                                    </svg>
+                                </span>
+                                {{ form.date.errors.0 }}
+                            </div>
+                        {% endif %}
+                        <p class="field__hint">
+                            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/>
+                            </svg>
+                            Format: YYYY-MM-DD (masalan: 2026-12-31)
+                        </p>
+                    {% endif %}
+
+                    <!-- Buttons -->
+                    <div class="btn-group">
+                        {% if step > 1 %}
+                            <button type="submit" name="action" value="prev" class="btn btn--prev">
+                                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                                    <line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/>
+                                </svg>
+                                Orqaga
+                            </button>
+                        {% endif %}
+                        <button type="submit" name="action" value="next"
+                            class="btn {% if step == total_steps %}btn--submit{% else %}btn--next{% endif %}">
+                            {% if step == total_steps %}
+                                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                                    <polyline points="20 6 9 17 4 12"/>
+                                </svg>
+                                Yuborish
+                            {% else %}
+                                Keyingi
+                                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                                    <line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/>
+                                </svg>
+                            {% endif %}
+                        </button>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+    (function () {
+        var step  = parseInt('{{ step|escapejs }}', 10)        || 1;
+        var total = parseInt('{{ total_steps|escapejs }}', 10) || 1;
+        var pct   = ((step - 1) / total) * 100;
+
+        /* progress bar */
+        var bar = document.getElementById('progressFill');
+        if (bar) bar.style.width = pct + '%';
+
+        /* ring */
+        var ring  = document.getElementById('ringFg');
+        var label = document.getElementById('ringLabel');
+        var circ  = 2 * Math.PI * 20; /* r=20 => ~125.66 */
+        if (ring) {
+            ring.style.strokeDashoffset = circ - (pct / 100) * circ;
+        }
+        if (label) label.textContent = Math.round(pct) + '%';
+    })();
+    </script>
+
+</body>
+</html>

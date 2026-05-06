@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bog'lanish | Tashkent Trip</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&family=Inter:wght@300;400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --primary: #00b4db;
+            --dark: #12122b;
+            --accent: #00d2ff;
+            --text-muted: #a0a0c0;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
+
+        body {
+            background-color: var(--dark);
+            color: #ffffff;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Navigatsiya - Minimal uslubda */
+        .navbar {
+            padding: 25px 8%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(18, 18, 43, 0.8);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .logo {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 600;
+            font-size: 1.4rem;
+            color: var(--primary);
+            text-decoration: none;
+        }
+
+        .nav-links a {
+            color: #fff;
+            text-decoration: none;
+            margin-left: 30px;
+            font-size: 0.9rem;
+            opacity: 0.7;
+            transition: 0.3s;
+        }
+
+        .nav-links a:hover {
+            opacity: 1;
+            color: var(--primary);
+        }
+
+        /* Bog'lanish Kontenti */
+        .contact-section {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 40px 20px;
+        }
+
+        .contact-card {
+            width: 100%;
+            max-width: 500px;
+            background: rgba(255, 255, 255, 0.03);
+            padding: 50px;
+            border-radius: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            text-align: center;
+        }
+
+        h1 {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 2rem;
+            margin-bottom: 40px;
+            letter-spacing: -0.5px;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 25px;
+            padding: 15px 20px;
+            background: rgba(255, 255, 255, 0.02);
+            border-radius: 15px;
+            transition: 0.3s;
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .contact-item:hover {
+            background: rgba(0, 180, 219, 0.1);
+            transform: translateX(5px);
+        }
+
+        .icon-box {
+            width: 45px;
+            height: 45px;
+            background: rgba(0, 180, 219, 0.15);
+            color: var(--primary);
+            border-radius: 12px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-right: 20px;
+            font-size: 1.2rem;
+        }
+
+        .contact-info h3 {
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            letter-spacing: 1px;
+            margin-bottom: 4px;
+            text-align: left;
+        }
+
+        .contact-info p {
+            font-size: 1rem;
+            font-weight: 500;
+            text-align: left;
+        }
+
+        /* Pastki qism */
+        footer {
+            padding: 30px;
+            text-align: center;
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        @media (max-width: 600px) {
+            .navbar { padding: 20px; flex-direction: column; gap: 15px; }
+            .contact-card { padding: 30px 20px; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar">
+        <a href="/" class="logo">Sayohat<span style="color:#fff">Dosh</span></a>
+        <div class="nav-links">
+            <a href="/">Bosh sahifa</a>
+            <a href="/about/">Biz haqimizda</a>
+            <a href="/contact/">Bog'lanish</a>
+        </div>
+    </nav>
+
+    <main class="contact-section">
+        <div class="contact-card">
+            <h1>Bog'lanish</h1>
+
+            <a href="mailto:Hamrohdosh@gmail.com" class="contact-item">
+                <div class="icon-box"><i class="far fa-envelope"></i></div>
+                <div class="contact-info">
+                    <h3>Elektron pochta</h3>
+                    <p>Hamrohdosh@gmail.com</p>
+                </div>
+            </a>
+
+            <a href="tel:+998903012536" class="contact-item">
+                <div class="icon-box"><i class="fas fa-mobile-alt"></i></div>
+                <div class="contact-info">
+                    <h3>Telefon raqam</h3>
+                    <p>+998 90 301 25 36</p>
+                </div>
+            </a>
+
+            <div class="contact-item">
+                <div class="icon-box"><i class="fas fa-map-marker-alt"></i></div>
+                <div class="contact-info">
+                    <h3>Manzilimiz</h3>
+                    <p>Toshkent, O'zbekiston</p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 Toshkent biz bilan sayohat qiling. </p>
+    </footer>
+
+</body>
+</html>

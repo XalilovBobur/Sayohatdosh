@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>So'rovnomalar</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; background: #f4f4f4; }
+        .navbar { background: #333; padding: 15px; color: white; margin-bottom: 20px; }
+        .navbar a { color: white; text-decoration: none; margin: 0 15px; }
+        .container { max-width: 800px; margin: 0 auto; }
+        h1 { text-align: center; margin-bottom: 30px; }
+        .survey-item { background: white; padding: 20px; margin-bottom: 15px; border-radius: 10px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        .survey-item h3 { margin: 0 0 10px 0; color: #007bff; }
+        .interests { color: #28a745; }
+        .date { color: #666; font-size: 14px; margin-top: 10px; }
+        .btn { display: inline-block; background: #007bff; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px; margin-bottom: 20px; }
+    </style>
+</head>
+<body>
+    <div class="navbar">
+        <a href="/">Bosh sahifa</a>
+        <a href="{% url 'survey:create' %}">Yangi so'rovnoma</a>
+        {% if user.is_authenticated %}
+            <span>Xush kelibsiz, {{ user.username }}!</span>
+            <a href="{% url 'users:logout' %}">Chiqish</a>
+        {% else %}
+            <a href="{% url 'users:login' %}">Kirish</a>
+        {% endif %}
+    </div>
+    
+    <div class="container">
+        <h1>📊 So'rovnomalar ro'yxati</h1>
+        
+        {% if surveys %}
+            {% for survey in surveys %}
+            <div class="survey-item">
+                <h3>{{ survey.user.username }} - {{ survey.date }}</h3>
+                <p><strong>🎯 Qiziqishlar:</strong> 
+                    <span class="interests">
+                        {% for interest in survey.interests.all %}
+                            {{ interest.display_name }}{% if not forloop.last %}, {% endif %}
+                        {% endfor %}
+                    </span>
+                </p>
+                <p><strong>👥 Kim bilan:</strong> {{ survey.companion.name }}</p>
+                <p><strong>🏥 Sog'liq:</strong> 
+                    {% for health in survey.health.all %}
+                        {{ health.name }}{% if not forloop.last %}, {% endif %}
+                    {% empty %}
+                        Hech qanday muammo yo'q
+                    {% endfor %}
+                </p>
+                <p><a href="{% url 'survey:detail' survey.id %}">🔍 Batafsil</a></p>
+                <p class="date">📅 Sana: {{ survey.date }}</p>
+            </div>
+            {% endfor %}
+        {% else %}
+            <p style="text-align: center;">Hali hech qanday so'rovnoma yo'q.</p>
+            <p style="text-align: center;"><a href="{% url 'survey:create' %}" class="btn">➕ Birinchi so'rovnomani yaratish</a></p>
+        {% endif %}
+    </div>
+</body>
+</html>

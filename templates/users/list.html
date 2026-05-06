@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Foydalanuvchilar</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; }
+        .navbar { background: #333; padding: 15px; margin-bottom: 20px; }
+        .navbar a { color: white; text-decoration: none; margin: 0 15px; }
+        .user-item { background: #f9f9f9; padding: 10px; margin: 10px 0; border-radius: 5px; }
+    </style>
+</head>
+<body>
+    <div class="navbar">
+        <a href="/">Bosh sahifa</a>
+        <a href="{% url 'users:list' %}">Foydalanuvchilar</a>
+        {% if user.is_authenticated %}
+            <span>Xush kelibsiz, {{ user.username }}!</span>
+            <a href="{% url 'users:logout' %}">Chiqish</a>
+        {% else %}
+            <a href="{% url 'users:login' %}">Kirish</a>
+            <a href="{% url 'users:register' %}">Ro'yxatdan o'tish</a>
+        {% endif %}
+    </div>
+    <div class="container">
+        <h1>Foydalanuvchilar</h1>
+        {% for user in users %}
+        <div class="user-item">
+            <strong>{{ user.username }}</strong> - {{ user.email }}
+        </div>
+        {% endfor %}
+    </div>
+</body>
+</html>

@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Foydalanuvchi ma'lumotlari</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; }
+        .navbar { background: #333; padding: 15px; margin-bottom: 20px; }
+        .navbar a { color: white; text-decoration: none; margin: 0 15px; }
+    </style>
+</head>
+<body>
+    <div class="navbar">
+        <a href="/">Bosh sahifa</a>
+        <a href="{% url 'users:list' %}">Foydalanuvchilar</a>
+        {% if user.is_authenticated %}
+            <span>Xush kelibsiz, {{ user.username }}!</span>
+            <a href="{% url 'users:logout' %}">Chiqish</a>
+        {% endif %}
+    </div>
+    <h1>{{ user.username }}</h1>
+    <p>Email: {{ user.email }}</p>
+    <p>Qo'shilgan sana: {{ user.date_joined }}</p>
+    <a href="{% url 'users:list' %}">Orqaga</a>
+</body>
+</html>

@@ -1,0 +1,664 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sayohat rejasi — Hamrohdosh</title>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
+
+        :root {
+            --primary: #0B2742;
+            --primary-soft: #12395f;
+            --cream: #F8F3EA;
+            --white: #ffffff;
+            --text: #102033;
+            --muted: #667085;
+            --border: rgba(16, 32, 51, .10);
+            --shadow: 0 22px 60px rgba(11, 39, 66, .12);
+        }
+
+        body {
+            background: var(--cream);
+            color: var(--text);
+            min-height: 100vh;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .container {
+            max-width: 1180px;
+            margin: auto;
+            padding: 0 24px;
+        }
+
+        .navbar {
+            padding: 22px 0;
+        }
+
+        .nav-inner {
+            background: rgba(255,255,255,.82);
+            backdrop-filter: blur(18px);
+            border: 1px solid rgba(255,255,255,.8);
+            box-shadow: var(--shadow);
+            border-radius: 22px;
+            padding: 14px 18px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 18px;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 11px;
+            font-size: 1.15rem;
+            font-weight: 900;
+            color: var(--primary);
+        }
+
+        .brand-icon {
+            width: 42px;
+            height: 42px;
+            border-radius: 14px;
+            background: var(--primary);
+            color: white;
+            display: grid;
+            place-items: center;
+        }
+
+        .nav-actions {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .btn {
+            border: none;
+            border-radius: 14px;
+            padding: 13px 20px;
+            font-weight: 800;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 9px;
+            transition: .25s;
+            font-size: .94rem;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+            box-shadow: 0 12px 28px rgba(11, 39, 66, .22);
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-soft);
+            transform: translateY(-2px);
+        }
+
+        .btn-light {
+            background: white;
+            color: var(--primary);
+            border: 1px solid var(--border);
+        }
+
+        .btn-light:hover {
+            transform: translateY(-2px);
+        }
+
+        .hero {
+            padding: 35px 0 28px;
+        }
+
+        .hero-card {
+            position: relative;
+            overflow: hidden;
+            border-radius: 34px;
+            padding: 46px;
+            background:
+                linear-gradient(90deg, rgba(255,255,255,.96), rgba(255,255,255,.82)),
+                radial-gradient(circle at 88% 20%, #ead8bd, transparent 34%);
+            border: 1px solid rgba(255,255,255,.8);
+            box-shadow: var(--shadow);
+        }
+
+        .hero-card::after {
+            content: "";
+            position: absolute;
+            right: -70px;
+            bottom: -100px;
+            width: 360px;
+            height: 360px;
+            background: radial-gradient(circle, rgba(11,39,66,.08), transparent 70%);
+        }
+
+        .eyebrow {
+            color: var(--primary);
+            font-size: .8rem;
+            font-weight: 900;
+            letter-spacing: .14em;
+            text-transform: uppercase;
+            margin-bottom: 14px;
+        }
+
+        .hero-title {
+            color: var(--primary);
+            font-size: clamp(2.2rem, 5vw, 4.4rem);
+            line-height: 1;
+            letter-spacing: -2px;
+            font-weight: 900;
+            max-width: 760px;
+            margin-bottom: 16px;
+        }
+
+        .hero-text {
+            color: var(--muted);
+            font-size: 1.05rem;
+            line-height: 1.7;
+            max-width: 620px;
+            font-weight: 500;
+        }
+
+        .trip-info {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 14px;
+            margin-top: 32px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .info-item {
+            background: rgba(248,243,234,.72);
+            border: 1px solid var(--border);
+            border-radius: 22px;
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .info-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background: #efe5d4;
+            color: var(--primary);
+            display: grid;
+            place-items: center;
+            font-size: 1.1rem;
+        }
+
+        .info-label {
+            color: var(--muted);
+            font-size: .78rem;
+            font-weight: 800;
+            margin-bottom: 3px;
+        }
+
+        .info-value {
+            color: var(--primary);
+            font-size: 1.1rem;
+            font-weight: 900;
+        }
+
+        .section-title {
+            margin: 36px 0 18px;
+            color: var(--primary);
+            font-size: 1.55rem;
+            font-weight: 900;
+        }
+
+        .stops-container {
+            display: grid;
+            gap: 24px;
+        }
+
+        .stop-card {
+            background: rgba(255,255,255,.86);
+            border: 1px solid rgba(255,255,255,.85);
+            border-radius: 30px;
+            box-shadow: var(--shadow);
+            overflow: hidden;
+            transition: .25s;
+        }
+
+        .stop-card:hover {
+            transform: translateY(-4px);
+        }
+
+        .stop-header {
+            padding: 22px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 18px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .stop-main {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .stop-number {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background: var(--primary);
+            color: white;
+            display: grid;
+            place-items: center;
+            font-size: 1.1rem;
+            font-weight: 900;
+        }
+
+        .stop-title h2 {
+            color: var(--primary);
+            font-size: 1.35rem;
+            margin-bottom: 4px;
+        }
+
+        .stop-title small {
+            color: var(--muted);
+            font-weight: 700;
+        }
+
+        .stop-time {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .time-badge {
+            background: #efe5d4;
+            color: var(--primary);
+            padding: 10px 14px;
+            border-radius: 999px;
+            font-weight: 800;
+            font-size: .88rem;
+        }
+
+        .stop-content {
+            display: grid;
+            grid-template-columns: 42% 58%;
+        }
+
+        .stop-image {
+            min-height: 320px;
+            background: #efe5d4;
+            overflow: hidden;
+        }
+
+        .stop-image img {
+            width: 100%;
+            height: 100%;
+            min-height: 320px;
+            object-fit: cover;
+            display: block;
+            transition: .35s;
+        }
+
+        .stop-card:hover .stop-image img {
+            transform: scale(1.04);
+        }
+
+        .stop-image-placeholder {
+            width: 100%;
+            height: 100%;
+            min-height: 320px;
+            display: grid;
+            place-items: center;
+            font-size: 4rem;
+            color: var(--primary);
+        }
+
+        .stop-details {
+            padding: 28px;
+        }
+
+        .stop-details h3 {
+            color: var(--primary);
+            font-size: 1.1rem;
+            margin-bottom: 12px;
+        }
+
+        .stop-description {
+            color: var(--muted);
+            line-height: 1.75;
+            font-size: .98rem;
+            margin-bottom: 20px;
+        }
+
+        .stop-properties {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 22px;
+        }
+
+        .property {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 14px;
+            border-radius: 999px;
+            background: rgba(248,243,234,.9);
+            color: var(--primary);
+            border: 1px solid var(--border);
+            font-weight: 800;
+            font-size: .86rem;
+        }
+
+        .coordinates {
+            color: var(--muted);
+            font-size: .88rem;
+            font-weight: 600;
+            padding-top: 18px;
+            border-top: 1px solid var(--border);
+        }
+
+        .map-section {
+            margin-top: 28px;
+            background: rgba(255,255,255,.86);
+            border: 1px solid rgba(255,255,255,.85);
+            border-radius: 30px;
+            box-shadow: var(--shadow);
+            padding: 24px;
+        }
+
+        .map-title {
+            color: var(--primary);
+            font-size: 1.4rem;
+            font-weight: 900;
+            margin-bottom: 18px;
+        }
+
+        .map-frame {
+            overflow: hidden;
+            border-radius: 22px;
+            border: 1px solid var(--border);
+        }
+
+        .map-frame iframe {
+            width: 100%;
+            height: 440px;
+            border: none;
+            display: block;
+        }
+
+        .action-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 14px;
+            flex-wrap: wrap;
+            padding: 34px 0 58px;
+        }
+
+        @media (max-width: 860px) {
+            .trip-info {
+                grid-template-columns: 1fr;
+            }
+
+            .stop-header {
+                align-items: flex-start;
+                flex-direction: column;
+            }
+
+            .stop-content {
+                grid-template-columns: 1fr;
+            }
+
+            .hero-card {
+                padding: 32px 24px;
+            }
+
+            .nav-inner {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .nav-actions {
+                width: 100%;
+                justify-content: space-between;
+                flex-wrap: wrap;
+            }
+        }
+
+        @media (max-width: 520px) {
+            .container {
+                padding: 0 14px;
+            }
+
+            .hero-title {
+                letter-spacing: -1px;
+            }
+
+            .btn {
+                width: 100%;
+            }
+
+            .action-buttons {
+                flex-direction: column;
+            }
+
+            .stop-main {
+                align-items: flex-start;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<nav class="navbar">
+    <div class="container">
+        <div class="nav-inner">
+            <a href="{% url 'core:home' %}" class="brand">
+                <span class="brand-icon">
+                    <i class="fa-solid fa-archway"></i>
+                </span>
+                HAMROHDOSH
+            </a>
+
+            <div class="nav-actions">
+                <a href="{% url 'core:home' %}" class="btn btn-light">
+                    <i class="fa-solid fa-house"></i>
+                    Bosh sahifa
+                </a>
+
+                {% if user.is_authenticated %}
+                    <span>{{ user.username }}</span>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</nav>
+
+<header class="hero">
+    <div class="container">
+        <div class="hero-card">
+            <div class="eyebrow">Sayohat rejasi tayyor</div>
+
+            <h1 class="hero-title">
+                Siz uchun mos yo'nalishlar tanlandi.
+            </h1>
+
+            <p class="hero-text">
+                Qiziqishlaringiz, sana va hamroh turiga qarab eng mos joylar rejalashtirildi.
+                Quyida safaringiz ketma-ketligi, vaqtlar va xarita berilgan.
+            </p>
+
+            <div class="trip-info">
+                <div class="info-item">
+                    <div class="info-icon">
+                        <i class="fa-solid fa-location-dot"></i>
+                    </div>
+                    <div>
+                        <div class="info-label">Joylar soni</div>
+                        <div class="info-value">{{ stops.count }}</div>
+                    </div>
+                </div>
+
+                <div class="info-item">
+                    <div class="info-icon">
+                        <i class="fa-regular fa-calendar"></i>
+                    </div>
+                    <div>
+                        <div class="info-label">Sana</div>
+                        <div class="info-value">{{ survey.date|date:"d.m.Y" }}</div>
+                    </div>
+                </div>
+
+                <div class="info-item">
+                    <div class="info-icon">
+                        <i class="fa-solid fa-user-group"></i>
+                    </div>
+                    <div>
+                        <div class="info-label">Kim bilan</div>
+                        <div class="info-value">{{ survey.companion.name }}</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<main class="container">
+    <h2 class="section-title">Yo'nalishlar</h2>
+
+    <div class="stops-container">
+        {% for stop in stops %}
+            <article class="stop-card">
+                <div class="stop-header">
+                    <div class="stop-main">
+                        <div class="stop-number">{{ stop.order }}</div>
+
+                        <div class="stop-title">
+                            <h2>{{ stop.location.name }}</h2>
+                            <small>{{ stop.location.category.display_name }}</small>
+                        </div>
+                    </div>
+
+                    <div class="stop-time">
+                        <div class="time-badge">
+                            <i class="fa-regular fa-clock"></i>
+                            {{ stop.estimated_arrival|time:"H:i" }}
+                        </div>
+
+                        <div class="time-badge">
+                            <i class="fa-solid fa-arrow-right"></i>
+                        </div>
+
+                        <div class="time-badge">
+                            <i class="fa-regular fa-clock"></i>
+                            {{ stop.estimated_departure|time:"H:i" }}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="stop-content">
+                    <div class="stop-image">
+                        {% if stop.location.get_first_image %}
+                            <img src="{{ stop.location.get_first_image.url }}" alt="{{ stop.location.name }}">
+                        {% else %}
+                            <div class="stop-image-placeholder">
+                                <i class="fa-regular fa-image"></i>
+                            </div>
+                        {% endif %}
+                    </div>
+
+                    <div class="stop-details">
+                        <h3>Tafsilotlar</h3>
+
+                        <p class="stop-description">
+                            {{ stop.location.description }}
+                        </p>
+
+                        <div class="stop-properties">
+                            <div class="property">
+                                <i class="fa-regular fa-hourglass-half"></i>
+                                {{ stop.location.avg_duration }} daqiqa
+                            </div>
+
+                            <div class="property">
+                                <i class="fa-solid fa-bolt"></i>
+                                Qiyinchilik: {{ stop.location.difficulty }}/5
+                            </div>
+
+                            {% if stop.location.is_family_friendly %}
+                                <div class="property">
+                                    <i class="fa-solid fa-people-roof"></i>
+                                    Oila uchun mos
+                                </div>
+                            {% endif %}
+                        </div>
+
+                        <div class="coordinates">
+                            <i class="fa-solid fa-map-pin"></i>
+                            Koordinata: {{ stop.location.latitude }}, {{ stop.location.longitude }}
+                        </div>
+                    </div>
+                </div>
+            </article>
+        {% empty %}
+            <div class="map-section">
+                <h2 class="map-title">Hozircha yo'nalish topilmadi</h2>
+                <p class="stop-description">
+                    Yangi so'rovnoma to'ldiring, tizim sizga mos sayohat rejasini tuzib beradi.
+                </p>
+            </div>
+        {% endfor %}
+    </div>
+
+    {% if stops %}
+        <section class="map-section">
+            <h2 class="map-title">
+                <i class="fa-solid fa-map-location-dot"></i>
+                Xarita
+            </h2>
+
+            <div class="map-frame">
+                <iframe
+                    src="https://maps.google.com/maps?q={{ stops.0.location.latitude }},{{ stops.0.location.longitude }}&output=embed"
+                    loading="lazy">
+                </iframe>
+            </div>
+        </section>
+    {% endif %}
+
+    <div class="action-buttons">
+        <a href="{% url 'core:home' %}" class="btn btn-light">
+            <i class="fa-solid fa-arrow-left"></i>
+            Bosh sahifaga
+        </a>
+
+        <a href="{% url 'survey:create' %}" class="btn btn-primary">
+            <i class="fa-solid fa-plus"></i>
+            Yangi so'rovnoma
+        </a>
+    </div>
+</main>
+
+</body>
+</html>

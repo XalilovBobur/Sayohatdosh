@@ -1,0 +1,715 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>So'rovnoma natijalari — SAYOHATDOSH</title>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
+
+        :root {
+            --primary: #0B2742;
+            --primary-soft: #12395f;
+            --cream: #F8F3EA;
+            --white: #ffffff;
+            --text: #102033;
+            --muted: #667085;
+            --border: rgba(16, 32, 51, .10);
+            --shadow: 0 22px 60px rgba(11, 39, 66, .12);
+        }
+
+        body {
+            background: var(--cream);
+            color: var(--text);
+            min-height: 100vh;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: auto;
+            padding: 0 24px;
+        }
+
+        .navbar {
+            padding: 22px 0;
+        }
+
+        .nav-inner {
+            background: rgba(255,255,255,.84);
+            backdrop-filter: blur(18px);
+            border: 1px solid rgba(255,255,255,.85);
+            border-radius: 22px;
+            box-shadow: var(--shadow);
+            padding: 14px 18px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 18px;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 11px;
+            color: var(--primary);
+            font-weight: 900;
+            font-size: 1.15rem;
+        }
+
+        .brand-icon {
+            width: 42px;
+            height: 42px;
+            border-radius: 14px;
+            background: var(--primary);
+            color: white;
+            display: grid;
+            place-items: center;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            border: none;
+            border-radius: 14px;
+            padding: 12px 18px;
+            font-weight: 800;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            transition: .25s;
+            font-size: .93rem;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+            box-shadow: 0 12px 28px rgba(11, 39, 66, .22);
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-soft);
+            transform: translateY(-2px);
+        }
+
+        .btn-light {
+            background: white;
+            color: var(--primary);
+            border: 1px solid var(--border);
+        }
+
+        .btn-light:hover {
+            transform: translateY(-2px);
+        }
+
+        .hero {
+            padding: 34px 0 34px;
+        }
+
+        .hero-card {
+            position: relative;
+            overflow: hidden;
+            border-radius: 34px;
+            padding: 46px;
+            background:
+                linear-gradient(90deg, rgba(255,255,255,.96), rgba(255,255,255,.82)),
+                radial-gradient(circle at 88% 20%, #ead8bd, transparent 34%);
+            border: 1px solid rgba(255,255,255,.9);
+            box-shadow: var(--shadow);
+        }
+
+        .eyebrow {
+            color: var(--primary);
+            font-size: .8rem;
+            font-weight: 900;
+            letter-spacing: .14em;
+            text-transform: uppercase;
+            margin-bottom: 14px;
+        }
+
+        .hero-title {
+            color: var(--primary);
+            font-size: clamp(2.2rem, 5vw, 4.2rem);
+            line-height: 1;
+            letter-spacing: -2px;
+            font-weight: 900;
+            max-width: 760px;
+            margin-bottom: 16px;
+        }
+
+        .hero-text {
+            color: var(--muted);
+            font-size: 1.05rem;
+            line-height: 1.7;
+            max-width: 640px;
+            font-weight: 500;
+        }
+
+        .summary-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 14px;
+            margin-top: 32px;
+        }
+
+        .summary-item {
+            background: rgba(248,243,234,.72);
+            border: 1px solid var(--border);
+            border-radius: 22px;
+            padding: 18px;
+        }
+
+        .summary-icon {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            background: #efe5d4;
+            color: var(--primary);
+            display: grid;
+            place-items: center;
+            margin-bottom: 12px;
+            font-size: 1.05rem;
+        }
+
+        .summary-label {
+            color: var(--muted);
+            font-size: .78rem;
+            font-weight: 800;
+            margin-bottom: 5px;
+        }
+
+        .summary-value {
+            color: var(--primary);
+            font-weight: 900;
+            line-height: 1.45;
+            font-size: .95rem;
+        }
+
+        .section {
+            padding: 24px 0 54px;
+        }
+
+        .section-head {
+            display: flex;
+            align-items: end;
+            justify-content: space-between;
+            gap: 20px;
+            margin-bottom: 22px;
+        }
+
+        .section-title {
+            color: var(--primary);
+            font-size: 1.8rem;
+            font-weight: 900;
+            margin-bottom: 7px;
+        }
+
+        .section-subtitle {
+            color: var(--muted);
+            font-weight: 600;
+        }
+
+        .locations-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 22px;
+        }
+
+        .location-card {
+            background: rgba(255,255,255,.88);
+            border: 1px solid rgba(255,255,255,.9);
+            border-radius: 28px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: .25s;
+        }
+
+        .location-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .location-image {
+            height: 230px;
+            background: #efe5d4;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .location-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .image-placeholder {
+            width: 100%;
+            height: 100%;
+            display: grid;
+            place-items: center;
+            color: var(--primary);
+            font-size: 3.2rem;
+        }
+
+        .location-badge {
+            position: absolute;
+            top: 14px;
+            right: 14px;
+            background: rgba(11,39,66,.92);
+            color: white;
+            padding: 8px 13px;
+            border-radius: 999px;
+            font-size: .75rem;
+            font-weight: 900;
+        }
+
+        .location-content {
+            padding: 22px;
+        }
+
+        .location-category {
+            display: inline-flex;
+            background: #efe5d4;
+            color: var(--primary);
+            padding: 7px 12px;
+            border-radius: 999px;
+            font-size: .75rem;
+            font-weight: 900;
+            margin-bottom: 12px;
+        }
+
+        .location-title {
+            color: var(--primary);
+            font-size: 1.25rem;
+            font-weight: 900;
+            margin-bottom: 10px;
+        }
+
+        .location-description {
+            color: var(--muted);
+            font-size: .94rem;
+            line-height: 1.65;
+            margin-bottom: 18px;
+        }
+
+        .location-meta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 9px;
+            margin-bottom: 18px;
+        }
+
+        .meta-item {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            background: rgba(248,243,234,.9);
+            color: var(--primary);
+            border: 1px solid var(--border);
+            border-radius: 999px;
+            padding: 9px 12px;
+            font-size: .82rem;
+            font-weight: 800;
+        }
+
+        .location-actions {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+
+        .suggestions-section {
+            padding: 20px 0 58px;
+        }
+
+        .suggestions-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 18px;
+        }
+
+        .suggestion-card {
+            background: rgba(255,255,255,.86);
+            border: 1px solid rgba(255,255,255,.9);
+            border-radius: 24px;
+            box-shadow: var(--shadow);
+            padding: 18px;
+            transition: .25s;
+        }
+
+        .suggestion-card:hover {
+            transform: translateY(-4px);
+        }
+
+        .suggestion-title {
+            color: var(--primary);
+            font-weight: 900;
+            margin: 10px 0 8px;
+        }
+
+        .suggestion-category {
+            color: var(--primary);
+            background: #efe5d4;
+            padding: 6px 10px;
+            border-radius: 999px;
+            font-size: .72rem;
+            font-weight: 900;
+            display: inline-flex;
+            margin-bottom: 10px;
+        }
+
+        .suggestion-description {
+            color: var(--muted);
+            line-height: 1.55;
+            font-size: .9rem;
+            margin-bottom: 16px;
+        }
+
+        .empty-card {
+            grid-column: 1 / -1;
+            background: rgba(255,255,255,.88);
+            border-radius: 28px;
+            padding: 50px 24px;
+            text-align: center;
+            box-shadow: var(--shadow);
+        }
+
+        .cta {
+            padding: 10px 0 70px;
+        }
+
+        .cta-card {
+            border-radius: 32px;
+            padding: 40px;
+            background: var(--primary);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 25px;
+            box-shadow: var(--shadow);
+        }
+
+        .cta-card h2 {
+            font-size: clamp(1.7rem, 4vw, 3rem);
+            line-height: 1.08;
+            margin-bottom: 10px;
+        }
+
+        .cta-card p {
+            color: rgba(255,255,255,.78);
+            font-weight: 600;
+        }
+
+        @media (max-width: 980px) {
+            .summary-grid,
+            .locations-grid,
+            .suggestions-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .cta-card {
+                flex-direction: column;
+                text-align: center;
+            }
+        }
+
+        @media (max-width: 640px) {
+            .container {
+                padding: 0 14px;
+            }
+
+            .nav-inner {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .nav-links {
+                width: 100%;
+            }
+
+            .btn {
+                width: 100%;
+            }
+
+            .hero-card {
+                padding: 30px 22px;
+            }
+
+            .summary-grid,
+            .locations-grid,
+            .suggestions-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .section-head {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .location-actions {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<nav class="navbar">
+    <div class="container">
+        <div class="nav-inner">
+            <a href="{% url 'core:home' %}" class="brand">
+                <span class="brand-icon">
+                    <i class="fa-solid fa-archway"></i>
+                </span>
+                SAYOHATDOSH
+            </a>
+
+            <div class="nav-links">
+                <a href="{% url 'travel_buddies:list' %}" class="btn btn-light">
+                    <i class="fa-solid fa-user-group"></i>
+                    Hamrohlar
+                </a>
+
+                <a href="{% url 'locations:list' %}" class="btn btn-light">
+                    <i class="fa-solid fa-location-dot"></i>
+                    Joylar
+                </a>
+
+                {% if user.is_authenticated %}
+                    <a href="{% url 'users:profile' user.id %}" class="btn btn-light">
+                        <i class="fa-solid fa-user"></i>
+                        Profil
+                    </a>
+                    <a href="{% url 'users:logout' %}" class="btn btn-primary">Chiqish</a>
+                {% else %}
+                    <a href="{% url 'users:login' %}" class="btn btn-light">Kirish</a>
+                    <a href="{% url 'users:register' %}" class="btn btn-primary">Ro'yxatdan o'tish</a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</nav>
+
+<header class="hero">
+    <div class="container">
+        <div class="hero-card">
+            <div class="eyebrow">So'rovnoma yakunlandi</div>
+
+            <h1 class="hero-title">
+                Sizga mos sayohat joylari topildi.
+            </h1>
+
+            <p class="hero-text">
+                Qiziqishlaringiz, hamroh turi, sog'liq holati va tanlangan sanaga qarab
+                eng mos yo'nalishlarni saraladik.
+            </p>
+
+            <div class="summary-grid">
+                <div class="summary-item">
+                    <div class="summary-icon"><i class="fa-solid fa-bullseye"></i></div>
+                    <div class="summary-label">Qiziqishlar</div>
+                    <div class="summary-value">
+                        {% for interest in survey.interests.all %}
+                            {{ interest.display_name }}{% if not forloop.last %}, {% endif %}
+                        {% empty %}
+                            Tanlanmagan
+                        {% endfor %}
+                    </div>
+                </div>
+
+                <div class="summary-item">
+                    <div class="summary-icon"><i class="fa-solid fa-user-group"></i></div>
+                    <div class="summary-label">Kim bilan</div>
+                    <div class="summary-value">{{ survey.companion.name }}</div>
+                </div>
+
+                <div class="summary-item">
+                    <div class="summary-icon"><i class="fa-solid fa-heart-pulse"></i></div>
+                    <div class="summary-label">Sog'liq</div>
+                    <div class="summary-value">
+                        {% for health in survey.health.all %}
+                            {{ health.name }}{% if not forloop.last %}, {% endif %}
+                        {% empty %}
+                            Muammo yo'q
+                        {% endfor %}
+                    </div>
+                </div>
+
+                <div class="summary-item">
+                    <div class="summary-icon"><i class="fa-regular fa-calendar"></i></div>
+                    <div class="summary-label">Sana</div>
+                    <div class="summary-value">{{ survey.date|date:"d.m.Y" }}</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<section class="section">
+    <div class="container">
+        <div class="section-head">
+            <div>
+                <h2 class="section-title">Eng mos joylar</h2>
+                <p class="section-subtitle">
+                    So'rovnomangizga mos {{ total_matches }} ta joy tanlandi.
+                </p>
+            </div>
+
+            <a href="{% url 'survey:create' %}" class="btn btn-light">
+                <i class="fa-solid fa-rotate-right"></i>
+                Qayta tanlash
+            </a>
+        </div>
+
+        <div class="locations-grid">
+            {% for location in recommended_locations %}
+                <article class="location-card">
+                    <div class="location-image">
+                        {% if location.get_first_image %}
+                            <img src="{{ location.get_first_image.url }}" alt="{{ location.name }}">
+                        {% else %}
+                            <div class="image-placeholder">
+                                <i class="fa-regular fa-image"></i>
+                            </div>
+                        {% endif %}
+
+                        <div class="location-badge">
+                            Sizga mos keladi
+                        </div>
+                    </div>
+
+                    <div class="location-content">
+                        <span class="location-category">
+                            {{ location.category.display_name }}
+                        </span>
+
+                        <h3 class="location-title">{{ location.name }}</h3>
+
+                        <p class="location-description">
+                            {{ location.description|truncatechars:125 }}
+                        </p>
+
+                        <div class="location-meta">
+                            <div class="meta-item">
+                                <i class="fa-regular fa-clock"></i>
+                                {{ location.avg_duration }} daqiqa
+                            </div>
+
+                            <div class="meta-item">
+                                <i class="fa-solid fa-bolt"></i>
+                                {{ location.difficulty }}/5
+                            </div>
+
+                            {% if location.is_family_friendly %}
+                                <div class="meta-item">
+                                    <i class="fa-solid fa-people-roof"></i>
+                                    Sayohatdoshingiz bilan
+                                </div>
+                            {% endif %}
+                        </div>
+
+                        <div class="location-actions">
+                            <a href="{% url 'locations:detail' location.id %}" class="btn btn-light">
+                                Batafsil
+                            </a>
+                            <a href="{% url 'travel_buddies:list' %}" class="btn btn-light">
+                                <i class="fa-solid fa-user-group"></i>
+                                 Hamrohlar
+                            </a>
+                        </div>
+                    </div>
+                </article>
+            {% empty %}
+                <div class="empty-card">
+                    <h3 class="section-title">Mos joylar topilmadi</h3>
+                    <p class="section-subtitle">
+                        Boshqa qiziqishlarni tanlab, so'rovnomani qayta to'ldirib ko'ring.
+                    </p>
+                    <br>
+                    <a href="{% url 'survey:create' %}" class="btn btn-primary">
+                        Qayta so'rovnoma
+                    </a>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+{% if additional_suggestions %}
+<section class="suggestions-section">
+    <div class="container">
+        <div class="section-head">
+            <div>
+                <h2 class="section-title">Qo'shimcha takliflar</h2>
+                <p class="section-subtitle">Bular ham sizga yoqishi mumkin.</p>
+            </div>
+        </div>
+
+        <div class="suggestions-grid">
+            {% for location in additional_suggestions %}
+                <article class="suggestion-card">
+                    <div class="summary-icon">
+                        <i class="fa-solid fa-location-dot"></i>
+                    </div>
+
+                    <h4 class="suggestion-title">{{ location.name }}</h4>
+
+                    <span class="suggestion-category">
+                        {{ location.category.display_name }}
+                    </span>
+
+                    <p class="suggestion-description">
+                        {{ location.description|truncatechars:90 }}
+                    </p>
+
+                    <a href="{% url 'locations:detail' location.id %}" class="btn btn-primary" style="width:100%;">
+                        Ko'rish
+                    </a>
+                </article>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endif %}
+
+<section class="cta">
+    <div class="container">
+        <div class="cta-card">
+            <div>
+                <h2>Endi sayohat rejasini yarating</h2>
+                <p>Yoqqan joylarni tanlang va to'liq marshrutni ko'ring.</p>
+            </div>
+
+            <a href="{% url 'locations:list' %}" class="btn btn-light">
+                Barcha joylar
+                <i class="fa-solid fa-arrow-right"></i>
+            </a>
+        </div>
+    </div>
+</section>
+
+</body>
+</html>

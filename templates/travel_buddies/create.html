@@ -1,0 +1,674 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Yangi post — Ssayohat</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Syne:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+
+:root{
+  --ink:#0e0e0e;
+  --paper:#f7f4ef;
+  --muted:#9e998f;
+  --faint:#edeae3;
+  --line:rgba(14,14,14,0.1);
+  --green:#2d6a4f;
+  --green-bg:#d8f3dc;
+  --accent:#c9783c;
+  --err:#b03a2e;
+  --err-bg:#fdf0ee;
+}
+
+html{scroll-behavior:smooth}
+
+body{
+  font-family:'Syne',sans-serif;
+  background:var(--paper);
+  color:var(--ink);
+  min-height:100vh;
+  display:flex;
+  flex-direction:column;
+}
+
+/* ── NAV ── */
+nav{
+  position:sticky;top:0;z-index:100;
+  background:var(--paper);
+  border-bottom:1px solid var(--line);
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0 3rem;height:60px;
+}
+.logo{
+  font-family:'Cormorant Garamond',serif;
+  font-size:22px;font-weight:300;
+  letter-spacing:-0.3px;color:var(--ink);
+}
+.logo em{font-style:italic;font-weight:400}
+.nav-links{
+  display:flex;gap:2rem;
+  font-size:12px;font-weight:500;
+  letter-spacing:0.08em;text-transform:uppercase;
+  color:var(--muted);
+}
+.nav-links a{cursor:pointer;transition:color .2s;text-decoration:none;color:var(--muted)}
+.nav-links a:hover{color:var(--ink)}
+
+/* ── PAGE GRID ── */
+.page-grid{
+  flex:1;
+  display:grid;
+  grid-template-columns:1fr 520px 1fr;
+  min-height:calc(100vh - 60px);
+}
+
+/* ── LEFT PANEL ── */
+.left-panel{
+  border-right:1px solid var(--line);
+  padding:3rem 2.5rem;
+  display:flex;
+  flex-direction:column;
+  justify-content:space-between;
+}
+.panel-header{}
+.step-label{
+  font-size:10px;font-weight:600;
+  letter-spacing:0.12em;text-transform:uppercase;
+  color:var(--muted);margin-bottom:2rem;
+  display:flex;align-items:center;gap:8px;
+}
+.step-label::before{
+  content:'';display:block;
+  width:24px;height:1px;
+  background:var(--muted);
+}
+.panel-title{
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(32px,3vw,48px);
+  font-weight:300;line-height:1.1;
+  letter-spacing:-0.5px;
+  margin-bottom:1.25rem;
+}
+.panel-title em{font-style:italic;color:var(--muted)}
+.panel-desc{
+  font-size:13px;color:var(--muted);
+  line-height:1.7;max-width:280px;
+}
+
+.tips{margin-top:3rem}
+.tips-label{
+  font-size:10px;font-weight:600;
+  letter-spacing:0.1em;text-transform:uppercase;
+  color:var(--muted);margin-bottom:1rem;
+}
+.tip{
+  display:flex;align-items:flex-start;gap:10px;
+  margin-bottom:1rem;
+}
+.tip-num{
+  font-family:'Cormorant Garamond',serif;
+  font-size:18px;font-weight:300;font-style:italic;
+  color:var(--muted);line-height:1;
+  flex-shrink:0;margin-top:1px;
+}
+.tip-text{
+  font-size:12px;color:var(--muted);line-height:1.6;
+}
+
+.panel-footer{
+  font-size:11px;color:var(--muted);
+  letter-spacing:0.04em;
+  border-top:1px solid var(--line);
+  padding-top:1.5rem;
+  margin-top:3rem;
+}
+
+/* ── FORM AREA ── */
+.form-area{
+  padding:3rem 2.5rem;
+  border-right:1px solid var(--line);
+  overflow-y:auto;
+}
+
+.form-heading{
+  font-family:'Cormorant Garamond',serif;
+  font-size:14px;font-weight:400;
+  letter-spacing:0.08em;text-transform:uppercase;
+  color:var(--muted);
+  margin-bottom:2rem;
+  padding-bottom:1rem;
+  border-bottom:1px solid var(--line);
+  display:flex;align-items:center;justify-content:space-between;
+}
+.required-note{
+  font-size:10px;color:var(--muted);
+  font-style:italic;letter-spacing:0;
+}
+
+/* field groups */
+.field{margin-bottom:1.75rem;position:relative}
+
+.field-label{
+  display:block;
+  font-size:11px;font-weight:600;
+  letter-spacing:0.08em;text-transform:uppercase;
+  color:var(--ink);
+  margin-bottom:8px;
+}
+.field-label span{color:var(--accent);margin-left:2px}
+
+/* Django renders inputs — we style them globally */
+.field input,
+.field select,
+.field textarea{
+  width:100%;
+  padding:12px 14px;
+  background:white;
+  border:1px solid var(--line);
+  border-radius:2px;
+  font-family:'Syne',sans-serif;
+  font-size:13px;
+  color:var(--ink);
+  outline:none;
+  transition:border-color .2s, box-shadow .2s;
+  -webkit-appearance:none;
+  appearance:none;
+}
+.field input:focus,
+.field select:focus,
+.field textarea:focus{
+  border-color:var(--ink);
+  box-shadow:0 0 0 3px rgba(14,14,14,0.06);
+}
+.field input::placeholder,
+.field textarea::placeholder{
+  color:var(--muted);
+  font-weight:400;
+}
+.field textarea{
+  resize:vertical;
+  min-height:110px;
+  line-height:1.6;
+}
+.field select{
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%239e998f' stroke-width='2'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+  background-repeat:no-repeat;
+  background-position:right 14px center;
+  padding-right:36px;
+  cursor:pointer;
+}
+
+.field-help{
+  font-size:11px;color:var(--muted);
+  margin-top:6px;letter-spacing:0.02em;
+}
+.field-error{
+  font-size:11px;color:var(--err);
+  margin-top:6px;
+  display:flex;align-items:center;gap:4px;
+}
+.field-error::before{
+  content:'';display:inline-block;
+  width:4px;height:4px;border-radius:50%;
+  background:var(--err);flex-shrink:0;
+}
+
+/* budget row */
+.budget-row{
+  display:grid;grid-template-columns:1fr 1fr;
+  gap:12px;
+}
+
+/* divider */
+.field-divider{
+  height:1px;background:var(--line);
+  margin:2rem 0;
+}
+
+/* char counter */
+.char-row{
+  display:flex;justify-content:flex-end;
+  font-size:10px;color:var(--muted);
+  margin-top:4px;
+  letter-spacing:0.04em;
+}
+
+/* submit row */
+.submit-row{
+  display:flex;gap:10px;
+  margin-top:2.5rem;
+  padding-top:2rem;
+  border-top:1px solid var(--line);
+}
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:8px;
+  padding:12px 24px;
+  font-family:'Syne',sans-serif;
+  font-size:12px;font-weight:600;
+  letter-spacing:0.08em;text-transform:uppercase;
+  border:none;cursor:pointer;
+  border-radius:2px;
+  transition:all .2s;
+  text-decoration:none;
+}
+.btn-dark{
+  flex:1;
+  background:var(--ink);color:var(--paper);
+}
+.btn-dark:hover{background:#2a2a2a}
+.btn-dark:active{transform:scale(0.98)}
+.btn-ghost{
+  background:transparent;
+  color:var(--muted);
+  border:1px solid var(--line);
+  flex-shrink:0;
+}
+.btn-ghost:hover{
+  border-color:var(--ink);color:var(--ink);
+  background:var(--faint);
+}
+
+/* ── RIGHT PANEL ── */
+.right-panel{
+  padding:3rem 2rem;
+  display:flex;flex-direction:column;
+  align-items:flex-start;
+}
+.preview-label{
+  font-size:10px;font-weight:600;
+  letter-spacing:0.12em;text-transform:uppercase;
+  color:var(--muted);margin-bottom:1.5rem;
+}
+.preview-card{
+  width:100%;
+  background:white;
+  border:1px solid var(--line);
+  border-radius:4px;
+  overflow:hidden;
+  opacity:0.6;
+  transition:opacity .3s;
+}
+.preview-card.active{opacity:1}
+.preview-top{
+  padding:1.25rem 1.5rem;
+  border-bottom:1px solid var(--line);
+}
+.preview-name{
+  font-family:'Cormorant Garamond',serif;
+  font-size:22px;font-weight:300;margin-bottom:4px;
+}
+.preview-loc{font-size:12px;color:var(--muted)}
+.preview-body{padding:1.25rem 1.5rem}
+.preview-row{
+  display:flex;align-items:center;gap:8px;
+  margin-bottom:10px;
+  font-size:12px;color:var(--muted);
+}
+.preview-val{color:var(--ink);font-weight:500}
+.preview-note-block{
+  margin-top:1rem;
+  padding:12px;
+  background:var(--paper);
+  border-radius:2px;
+  font-size:12px;color:var(--muted);
+  line-height:1.6;
+  min-height:48px;
+  font-style:italic;
+}
+.preview-status{
+  margin-top:1rem;
+  display:inline-flex;align-items:center;gap:6px;
+  font-size:10px;font-weight:600;
+  letter-spacing:0.08em;text-transform:uppercase;
+  padding:4px 12px;border-radius:20px;
+  background:var(--green-bg);color:#1a4a30;
+}
+.live-dot{
+  width:5px;height:5px;border-radius:50%;
+  background:var(--green);
+  animation:pulse 2s infinite;
+}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+
+.guide{
+  margin-top:2rem;width:100%;
+}
+.guide-item{
+  display:flex;align-items:flex-start;gap:10px;
+  padding:1rem 0;
+  border-bottom:1px solid var(--line);
+}
+.guide-item:last-child{border-bottom:none}
+.guide-icon{
+  width:28px;height:28px;border-radius:50%;
+  background:var(--faint);
+  display:flex;align-items:center;justify-content:center;
+  flex-shrink:0;
+}
+.guide-text{
+  font-size:12px;color:var(--muted);line-height:1.6;
+}
+.guide-text strong{
+  display:block;font-size:12px;font-weight:600;
+  color:var(--ink);margin-bottom:2px;
+}
+
+/* ── FOOTER ── */
+footer{
+  border-top:1px solid var(--line);
+  padding:1.5rem 3rem;
+  display:flex;align-items:center;justify-content:space-between;
+  font-size:11px;color:var(--muted);
+  letter-spacing:0.04em;
+}
+
+/* ── RESPONSIVE ── */
+@media(max-width:1100px){
+  .right-panel{display:none}
+  .page-grid{grid-template-columns:1fr 1fr}
+}
+@media(max-width:768px){
+  .left-panel{display:none}
+  .page-grid{grid-template-columns:1fr}
+  nav{padding:0 1.5rem}
+  .form-area{padding:2rem 1.5rem}
+  .budget-row{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="logo">Sayohat<em>dosh</em></div>
+  <div class="nav-links">
+    <a href="{% url 'travel_buddies:list' %}">Hamrohlar</a>
+    <a href="{% url 'travel_buddies:my_posts' %}">Mening postlarim</a>
+  </div>
+</nav>
+
+<!-- PAGE -->
+<div class="page-grid">
+
+  <!-- LEFT PANEL -->
+  <div class="left-panel">
+    <div class="panel-header">
+      <div class="step-label">Yangi e'lon</div>
+      <h1 class="panel-title">Sayohat<br><em>hamrohini</em><br>topish</h1>
+      <p class="panel-desc">Marshrutingizni, sanani va hamroh talablaringizni ko'rsating — to'g'ri odam siz bilan bog'lanadi.</p>
+
+      <div class="tips">
+        <div class="tips-label">Maslahatlar</div>
+        <div class="tip">
+          <span class="tip-num">01</span>
+          <p class="tip-text">Izohda o'zingiz haqida qisqa ma'lumot yozing — hamroh siz bilan mos kelishini tushunsin.</p>
+        </div>
+        <div class="tip">
+          <span class="tip-num">02</span>
+          <p class="tip-text">Budjetni aniq ko'rsating — bu noto'g'ri kutilmalardan saqlaydi.</p>
+        </div>
+        <div class="tip">
+          <span class="tip-num">03</span>
+          <p class="tip-text">Transport turini ko'rsating — kim mashinasi bilan kelishi kerakligini oldindan kelishib oling.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="panel-footer">
+      Ssayohat — 2024 &middot; Hamroh toping, sayohat qiling
+    </div>
+  </div>
+
+  <!-- FORM -->
+  <div class="form-area">
+    <div class="form-heading">
+      Post ma'lumotlari
+      <span class="required-note">* — majburiy maydonlar</span>
+    </div>
+
+    <form method="POST" id="mainForm">
+      {% csrf_token %}
+
+      <div class="field">
+        <label class="field-label">Joy <span>*</span></label>
+        {{ form.location }}
+        {% if form.location.errors %}
+          <div class="field-error">{{ form.location.errors.0 }}</div>
+        {% endif %}
+      </div>
+
+      <div class="field">
+        <label class="field-label">Sayohat sanasi <span>*</span></label>
+        {{ form.travel_date }}
+        <div class="field-help">O'tib ketgan sana kiritilmasin</div>
+        {% if form.travel_date.errors %}
+          <div class="field-error">{{ form.travel_date.errors.0 }}</div>
+        {% endif %}
+      </div>
+
+      <div class="field-divider"></div>
+
+      <div class="field">
+        <label class="field-label">Kerakli odamlar soni <span>*</span></label>
+        {{ form.people_needed }}
+        {% if form.people_needed.errors %}
+          <div class="field-error">{{ form.people_needed.errors.0 }}</div>
+        {% endif %}
+      </div>
+
+      <div class="field">
+        <label class="field-label">Guruh turi <span>*</span></label>
+        {{ form.preferred_group }}
+        {% if form.preferred_group.errors %}
+          <div class="field-error">{{ form.preferred_group.errors.0 }}</div>
+        {% endif %}
+      </div>
+
+      <div class="field">
+        <label class="field-label">Transport turi <span>*</span></label>
+        {{ form.transport_type }}
+        {% if form.transport_type.errors %}
+          <div class="field-error">{{ form.transport_type.errors.0 }}</div>
+        {% endif %}
+      </div>
+
+      <div class="field-divider"></div>
+
+      <div class="field">
+        <label class="field-label">Budjet (so'm)</label>
+        <div class="budget-row">
+          <div>
+            {{ form.budget_from }}
+            {% if form.budget_from.errors %}
+              <div class="field-error">{{ form.budget_from.errors.0 }}</div>
+            {% endif %}
+            <div class="field-help">Minimal</div>
+          </div>
+          <div>
+            {{ form.budget_to }}
+            {% if form.budget_to.errors %}
+              <div class="field-error">{{ form.budget_to.errors.0 }}</div>
+            {% endif %}
+            <div class="field-help">Maksimal</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="field-divider"></div>
+
+      <div class="field">
+        <label class="field-label">Izoh</label>
+        {{ form.note }}
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-top:6px">
+          <span class="field-help">O'zingiz haqida qisqa ma'lumot</span>
+          <span class="char-row" id="charCount">0 / 500</span>
+        </div>
+        {% if form.note.errors %}
+          <div class="field-error">{{ form.note.errors.0 }}</div>
+        {% endif %}
+      </div>
+
+      <div class="submit-row">
+        <button type="submit" class="btn btn-dark">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+          Post yaratish
+        </button>
+        <a href="{% url 'travel_buddies:list' %}" class="btn btn-ghost">Bekor qilish</a>
+      </div>
+    </form>
+  </div>
+
+  <!-- RIGHT PREVIEW PANEL -->
+  <div class="right-panel">
+    <div class="preview-label">Oldindan ko'rish</div>
+
+    <div class="preview-card" id="previewCard">
+      <div class="preview-top">
+        <div class="preview-name" id="pvName">— — —</div>
+        <div class="preview-loc" id="pvLoc">Joy tanlanmagan</div>
+      </div>
+      <div class="preview-body">
+        <div class="preview-row">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" opacity=".5"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+          <span class="preview-val" id="pvDate">Sana tanlang</span>
+        </div>
+        <div class="preview-row">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" opacity=".5"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>
+          <span class="preview-val" id="pvPeople">— kishi</span>
+        </div>
+        <div class="preview-row">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" opacity=".5"><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
+          <span class="preview-val" id="pvTransport">Transport</span>
+        </div>
+        <div class="preview-row">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" opacity=".5"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+          <span class="preview-val" id="pvBudget">—</span>
+        </div>
+        <div class="preview-note-block" id="pvNote">Izoh yozilmagan...</div>
+        <div class="preview-status">
+          <div class="live-dot"></div>
+          Ochiq
+        </div>
+      </div>
+    </div>
+
+    <div class="guide">
+      <div class="guide-item">
+        <div class="guide-icon">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="var(--muted)" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+        </div>
+        <div class="guide-text">
+          <strong>Post qachon ko'rinadi?</strong>
+          Yuborilgandan so'ng darhol hamrohlar ro'yxatiga qo'shiladi.
+        </div>
+      </div>
+      <div class="guide-item">
+        <div class="guide-icon">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="var(--muted)" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.34 2 2 0 0 1 3.6 1.13h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.73a16 16 0 0 0 6 6l.92-.92a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 21.53 16z"/></svg>
+        </div>
+        <div class="guide-text">
+          <strong>Qanday bog'lanishadi?</strong>
+          Boshqa foydalanuvchilar to'g'ridan-to'g'ri so'rov yuboradi — siz qabul qilasiz.
+        </div>
+      </div>
+      <div class="guide-item">
+        <div class="guide-icon">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="var(--muted)" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+        </div>
+        <div class="guide-text">
+          <strong>Keyinchalik tahrirlash</strong>
+          Post yaratgandan so'ng "Mening postlarim" sahifasida tahrirlash mumkin.
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <span>© 2024 Ssayohat</span>
+  <span>Hamroh toping — sayohat qiling</span>
+  <a href="{% url 'travel_buddies:list' %}" style="color:var(--muted);text-decoration:none">Hamrohlar ro'yxati →</a>
+</footer>
+
+<script>
+/* Live preview */
+function q(sel){return document.querySelector(sel)}
+
+function bindInput(selector,fn){
+  const el=document.querySelector(selector);
+  if(el) el.addEventListener('input',fn);
+}
+
+function updateCard(){
+  const card=document.getElementById('previewCard');
+  const loc=q('[name="location"]');
+  const date=q('[name="travel_date"]');
+  const people=q('[name="people_needed"]');
+  const transport=q('[name="transport_type"]');
+  const bFrom=q('[name="budget_from"]');
+  const bTo=q('[name="budget_to"]');
+  const note=q('[name="note"]');
+  const hasAny=(loc&&loc.value)||(date&&date.value)||(note&&note.value);
+  card.classList.toggle('active',!!hasAny);
+
+  if(loc){
+    const locName=loc.options?loc.options[loc.selectedIndex]?.text:loc.value;
+    document.getElementById('pvLoc').textContent=locName||'Joy tanlanmagan';
+    document.getElementById('pvName').textContent=locName?'📍 '+locName:'— — —';
+  }
+  if(date&&date.value){
+    const d=new Date(date.value);
+    document.getElementById('pvDate').textContent=d.toLocaleDateString('uz-UZ',{year:'numeric',month:'long',day:'numeric'});
+  } else {
+    document.getElementById('pvDate').textContent='Sana tanlang';
+  }
+  if(people){
+    const val=people.options?people.options[people.selectedIndex]?.text:people.value;
+    document.getElementById('pvPeople').textContent=val?val+' kishi':'— kishi';
+  }
+  if(transport){
+    const val=transport.options?transport.options[transport.selectedIndex]?.text:transport.value;
+    document.getElementById('pvTransport').textContent=val||'Transport';
+  }
+  const from=bFrom&&bFrom.value?Number(bFrom.value).toLocaleString():'';
+  const to=bTo&&bTo.value?Number(bTo.value).toLocaleString():'';
+  let budgetStr='—';
+  if(from&&to) budgetStr=from+' – '+to+" so'm";
+  else if(from) budgetStr='Dan: '+from+" so'm";
+  else if(to) budgetStr='Gacha: '+to+" so'm";
+  document.getElementById('pvBudget').textContent=budgetStr;
+
+  if(note){
+    const val=note.value.trim();
+    document.getElementById('pvNote').textContent=val||'Izoh yozilmagan...';
+    document.getElementById('charCount').textContent=val.length+' / 500';
+    document.getElementById('pvNote').style.fontStyle=val?'normal':'italic';
+  }
+}
+
+/* bind all form inputs */
+document.querySelectorAll('input,select,textarea').forEach(el=>{
+  el.addEventListener('input',updateCard);
+  el.addEventListener('change',updateCard);
+});
+
+/* char counter */
+const noteEl=document.querySelector('[name="note"]');
+if(noteEl){
+  noteEl.setAttribute('maxlength','500');
+  noteEl.addEventListener('input',function(){
+    const n=this.value.length;
+    document.getElementById('charCount').textContent=n+' / 500';
+    document.getElementById('charCount').style.color=n>450?'var(--err)':'var(--muted)';
+  });
+}
+
+updateCard();
+</script>
+</body>
+</html>
